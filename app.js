@@ -58,9 +58,12 @@ function guidance(type = 'unknown') {
   }
   $('guidance-footnote').textContent = 'This does not verify who is calling.';
 }
-function showError(message = '') {
+function showError(message = '', inputError = false) {
   $('inline-error').textContent = message;
   $('inline-error').hidden = !message;
+  $('conversation-input').setAttribute('aria-invalid', String(inputError));
+  $('conversation-input').setAttribute('aria-describedby',
+    `text-help input-status text-service-note${inputError ? ' inline-error' : ''}`);
 }
 function renderSample() {
   const selected = samples[sample];
@@ -235,7 +238,11 @@ $('check-this-sample').addEventListener('click', () => loadConversationExample(s
 async function analyze() {
   if (!liveAvailable || busy) return;
   const text = $('conversation-input').value;
-  if (!/^(Caller|Recipient):\s*\S/m.test(text)) { showError('Label the speakers with Caller: or Recipient: before checking.'); return; }
+  if (!/^(Caller|Recipient):\s*\S/m.test(text)) {
+    showError('Label the speakers with Caller: or Recipient: before checking.', true);
+    $('conversation-input').focus();
+    return;
+  }
   invalidate(); guidance(); const current = version; busy = true; request = new AbortController();
   setNotice('neutral', 'Checking the latest words', 'Please wait for the result.');
   refreshAction();

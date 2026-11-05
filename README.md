@@ -14,7 +14,7 @@ A frozen synthetic evaluation completed 40 conversations / 120 cumulative inputs
 
 The false alert came from a recipient-only recollection. A post-evaluation application guard now returns insufficient context without calling the API when no Caller turn exists. Its offline and in-memory route checks pass; the updated four-case real HTTP smoke run passed. Before the latest sample-audio changes, 66 tests passed with real local HTTP sockets (54 logic tests + 12 route tests). A fresh server run confirmed the guard. On November 6, the updated offline and in-memory suites pass 80 tests (68 logic/playback/frontend + 12 route tests); Claude subsequently reported all 80 tests passing with real HTTP sockets before the November 6 deployment. Three additional synthetic checks on the public app passed: a gift-card request with source comparison, a routine account message, and insufficient context. Input validation, clearing results, and a disconnected-network failure were checked in Chrome.
 
-The selected visual reference is 디자인_개선_2.png. Scripted examples are authored, not API results. Public deployment and the three live checks are complete. A 320px action-label clipping issue has a local CSS fix pending deployment and visual recheck. Microphone quality, full screen-reader testing, repository publication, and video recording remain unfinished.
+The selected visual reference is 디자인_개선_2.png. Scripted examples are authored, not API results. Public deployment and the three live checks are complete. The mobile action-label fix is deployed and visually verified on the public app at 320px; the 844×390 landscape action area was also checked. The source repository is public. Microphone quality, full screen-reader testing, and live screen recording remain unfinished.
 
 ## Run locally
 
@@ -36,6 +36,8 @@ node verify-live.mjs --live --free-credits-confirmed --serve
 The verifier checks four cases, including recipient-only input, and keeps port 4174 open only when all pass. Its observed budget is 50 credits, not a hard provider billing cap. Never put the key in frontend code, source control, video, or screenshots.
 
 ## Verification
+
+The latest local accessibility update passes 83 offline/in-memory tests (71 + 12). The public deployment record has 80 passing full HTTP tests; the newer input-error accessibility change is pending deployment. These checks do not certify screen-reader behavior.
 
 ```sh
 npm run test:offline
@@ -73,7 +75,7 @@ The conversations are synthetic, not a representative real-call benchmark. No fl
 
 Research, preparation, code, and tests were created with OpenAI Codex assistance. Static design concepts were generated with the built-in image generation tool. Prompts and source references are included. Competitor code and assets were not reused.
 
-Manrope is bundled from Google Fonts with its OFL license, and the UI icons are Heroicons with their MIT license. The phone mark was generated from the selected visual reference. The environment blocked .git creation. The work record is not presented as a substitute for required public repository development history. No remote repository exists. The deployment report records 80 passing tests and private-path 404 checks; public live analysis was subsequently verified.
+Manrope is bundled from Google Fonts with its OFL license, and the UI icons are Heroicons with their MIT license. The phone mark was generated from the selected visual reference. The public repository is https://github.com/jejuolledev/hang-up-meter. Its Git history starts with the November 6 release. Earlier work notes are not presented as historical Git commits. The deployment report records 80 passing tests and private-path 404 checks; public live analysis was subsequently verified.
 
 
 ### HTTPS hosting configuration

@@ -11,7 +11,7 @@ function app() {
     setAttribute(name, value) { this.attributes[name] = value; }
     replaceChildren(...children) { this.childNodes = children; }
     append(...children) { this.childNodes.push(...children); }
-    focus() {}
+    focus() { this.focused = true; }
     showModal() {}
     close() {}
   }
@@ -32,6 +32,45 @@ function app() {
   return { c, $, pending };
 }
 const response = result => ({ ok: true, json: async () => result });
+test('speaker-label error identifies and focuses the invalid field, then clears on edit', async () => {
+  const { c, $, pending } = app();
+  const input = $('conversation-input');
+  input.value = 'Give me your code.';
+  await c.analyze();
+  assert.equal(pending.length, 0);
+  assert.equal(input.attributes['aria-invalid'], 'true');
+  assert.match(input.attributes['aria-describedby'], /inline-error/);
+  assert.equal(input.focused, true);
+  assert.equal($('inline-error').hidden, false);
+  input.value = 'Caller: Give me your code.';
+  c.inputChanged();
+  assert.equal(input.attributes['aria-invalid'], 'false');
+  assert.doesNotMatch(input.attributes['aria-describedby'], /inline-error/);
+  assert.equal($('inline-error').hidden, true);
+});
+test('server failure does not label valid conversation text as invalid', async () => {
+  const { c, $, pending } = app();
+  const run = c.analyze();
+  pending[0].resolve({ ok: false, json: async () => ({ code: 'ANALYSIS_FAILED' }) });
+  await run;
+  assert.equal($('conversation-input').attributes['aria-invalid'], 'false');
+  assert.equal($('notice-title').textContent, 'Could not assess these words');
+});
+test('keyboard tabs update selection and hide inactive panels', () => {
+  const { $ } = app();
+  let prevented = false;
+  $('text-tab').listeners.keydown({ key: 'End', preventDefault() { prevented = true; } });
+  assert.equal(prevented, true);
+  assert.equal($('mic-tab').attributes['aria-selected'], 'true');
+  assert.equal($('mic-tab').tabIndex, 0);
+  assert.equal($('mic-tab').focused, true);
+  assert.equal($('text-tab').tabIndex, -1);
+  assert.equal($('text-panel').hidden, true);
+  assert.equal($('mic-panel').hidden, false);
+  $('mic-tab').listeners.keydown({ key: 'Home', preventDefault() {} });
+  assert.equal($('sample-tab').attributes['aria-selected'], 'true');
+  assert.equal($('sample-panel').hidden, false);
+});
 test('editing while a request is pending ignores its late warning and clears busy state', async () => {
   const { c, $, pending } = app(); const run = c.analyze();
   $('conversation-input').value = 'Caller: Hello.'; c.inputChanged();

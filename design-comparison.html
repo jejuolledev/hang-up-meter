@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hang Up Meter comparison</title>
+<style>
+body{margin:20px;background:#e8eaf1;color:#101631;font:16px Arial,sans-serif}h1{font-size:22px}p{line-height:1.5}.comparison{display:flex;gap:24px;flex-wrap:wrap}.panel{width:743.5px}h2{font-size:18px}.canvas{width:743.5px;height:529px;overflow:hidden;background:white;border:1px solid #cdd2e5}.frame{width:1487px;height:1058px;transform:scale(.5);transform-origin:top left;display:block;border:0}a{color:#1451cc}
+</style>
+<h1>Hang Up Meter design comparison</h1>
+<p>Both panels use a 1487 × 1058 canvas, displayed at half size. The right panel is the running file preview. Its scripted sample is not an API result.</p>
+<div class="comparison">
+  <section class="panel"><h2>Selected reference · revised option 2</h2><div class="canvas"><img class="frame" src="./디자인_개선_2.png" alt="Selected design reference"></div></section>
+  <section class="panel"><h2>Current implementation · interactive preview</h2><div class="canvas"><iframe class="frame" src="./index.html" title="Hang Up Meter interactive comparison"></iframe></div></section>
+</div>
+<p>The implementation starts with the same three gift-card lines visible. Play, pause, and sample labels are functional; reference artwork includes an unused keyboard symbol. <a href="./index.html">Open the app</a></p>
+</html>

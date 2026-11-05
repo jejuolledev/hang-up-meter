@@ -1,0 +1,18 @@
+{
+  "name": "hang-up-meter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "test": "node --test clocked.test.mjs run-evaluation.test.mjs analysis.test.mjs server.test.mjs sample-playback.test.mjs frontend.test.mjs",
+    "test:offline": "node --test clocked.test.mjs run-evaluation.test.mjs analysis.test.mjs sample-playback.test.mjs frontend.test.mjs",
+    "test:http": "node --test server.test.mjs",
+    "test:handlers": "HANGUP_TEST_IN_MEMORY=1 node --test server.test.mjs",
+    "evaluate": "node evaluate.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:06,000
+Before acting on an unfamiliar call,
+check what the caller is asking you to do.
+
+2
+00:00:06,000 --> 00:00:15,000
+This fictional caller demands gift card codes
+and claims government fines require them.
+
+3
+00:00:15,000 --> 00:00:23,000
+See the concerning request
+and the caller’s exact words.
+
+4
+00:00:23,000 --> 00:00:30,000
+Compare the claim with official guidance.
+Here is a reason to pause.
+
+5
+00:00:30,000 --> 00:00:37,000
+Now the caller says not to share
+a password or sign-in code.
+
+6
+00:00:37,000 --> 00:00:43,000
+A keyword alone should not decide the result.
+No flagged signals does not mean safe.
+
+7
+00:00:43,000 --> 00:00:52,000
+A vague update is different again.
+The app asks for more context.
+
+8
+00:00:52,000 --> 00:01:00,000
+Pause. Check through a contact you trust.
+This app does not authenticate the caller.

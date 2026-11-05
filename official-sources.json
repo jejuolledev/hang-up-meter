@@ -1,0 +1,24 @@
+{
+  "checkedOn": "2026-11-05",
+  "scope": "Two short excerpts from US FTC consumer guidance. This is not a comprehensive knowledge base or caller-identity verification service.",
+  "documents": [
+    {
+      "id": "ftc-gift-card-payment",
+      "title": "Avoiding and Reporting Gift Card Scams",
+      "publisher": "Federal Trade Commission",
+      "url": "https://consumer.ftc.gov/avoiding-reporting-gift-card-scams",
+      "section": "Opening guidance",
+      "text": "No real business or government agency will ever tell you to buy a gift card to pay them.",
+      "kind": "verbatim_excerpt"
+    },
+    {
+      "id": "ftc-time-to-decide",
+      "title": "Phone Scams",
+      "publisher": "Federal Trade Commission",
+      "url": "https://consumer.ftc.gov/articles/phone-scams",
+      "section": "You don't need to decide now",
+      "text": "Most honest businesses will give you time to think their offer over and get written information about it before you commit.",
+      "kind": "verbatim_excerpt"
+    }
+  ]
+}

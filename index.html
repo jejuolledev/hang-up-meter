@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Inspect concerning requests in a call, alongside relevant official guidance.">
+  <title>Hang Up Meter</title>
+  <link rel="icon" href="./brandmark.png">
+  <link rel="stylesheet" href="./app.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conversation">Skip to conversation</a>
+  <div class="app-shell">
+    <header class="brand-row">
+      <a class="wordmark" href="./index.html" aria-label="Hang Up Meter home"><img src="./brandmark.png" alt="" width="70" height="70"><span>Hang Up Meter</span></a>
+      <button class="preview-badge" id="about-open" type="button">About this app</button>
+    </header>
+
+    <section class="product-intro" aria-label="What this app does">
+      <p class="product-promise">Before you act on a call, check the request.</p>
+      <p class="product-explanation">See the caller’s exact words, compare official guidance, and choose what to do next.</p>
+      <ol class="review-steps" aria-label="How a check helps"><li>The words</li><li>The evidence</li><li>Your next step</li></ol>
+    </section>
+
+    <nav class="mode-row" aria-label="Conversation input">
+      <div class="mode-tabs" role="tablist" aria-label="Input mode">
+        <button role="tab" aria-selected="true" aria-controls="sample-panel" id="sample-tab" data-mode="sample" tabindex="0"><img class="icon i-play" src="./icon-play.svg" alt="" aria-hidden="true">Sample call</button>
+        <button role="tab" aria-selected="false" aria-controls="text-panel" id="text-tab" data-mode="text" tabindex="-1"><img class="icon i-chat" src="./icon-chat-bubble-left-right.svg" alt="" aria-hidden="true">Type text</button>
+        <button role="tab" aria-selected="false" aria-controls="mic-panel" id="mic-tab" data-mode="mic" tabindex="-1"><img class="icon i-mic" src="./icon-microphone.svg" alt="" aria-hidden="true">Microphone</button>
+      </div>
+      <p class="mode-status" id="mode-status" role="status" aria-live="polite">Scripted sample · Ready</p>
+    </nav>
+
+    <main class="workspace" id="workspace">
+      <section class="conversation-column" id="conversation" aria-label="Conversation" tabindex="-1">
+        <div class="notice notice-warning" id="notice" role="status" aria-live="polite" aria-atomic="true">
+          <img class="icon i-warning notice-icon" id="notice-icon" src="./icon-exclamation-triangle.svg" alt="" aria-hidden="true">
+          <div><h1 id="notice-title">Check this payment request</h1><p id="notice-detail">The caller is asking for gift card codes.</p></div>
+        </div>
+
+        <p class="next-step" id="next-step"><strong>Next step</strong><span id="next-step-text">Pause. Check with a contact you trust.</span></p>
+
+        <section role="tabpanel" aria-labelledby="sample-tab" id="sample-panel">
+          <div class="transcript-heading"><span>Caller</span><button id="sample-picker-open" class="text-link small-link" type="button">Change sample</button></div>
+          <p class="sample-disclosure">Fictional call · Results written in advance</p>
+          <label class="sample-audio-option"><input type="checkbox" id="sample-text-only"> Text only <span>(no sound)</span></label>
+          <div id="sample-transcript" class="transcript" aria-label="Synthetic sample transcript"></div>
+          <button id="check-this-sample" class="sample-check-button" type="button">Check these words with Clocked <span aria-hidden="true">→</span></button>
+          <p class="sample-check-note">Opens editable text. Nothing is sent until you press Check.</p>
+        </section>
+
+        <section role="tabpanel" aria-labelledby="text-tab" id="text-panel" hidden>
+          <label class="field-label" for="conversation-input">What did the caller say?</label>
+          <p class="input-help" id="text-help">Try a fictional conversation. Start each speaker's words with Caller: or Recipient:.</p>
+          <div class="example-loader">
+            <label for="example-choice">Try a conversation</label>
+            <select id="example-choice"><option value="gift">Gift card request</option><option value="ordinary">Routine account check</option><option value="unclear">A vague update</option></select>
+            <button id="load-example" class="text-link small-link" type="button">Load example</button>
+          </div>
+          <textarea id="conversation-input" maxlength="12000" rows="7" aria-describedby="text-help input-status" placeholder="Caller: Tell me the sign-in code from your banking app."></textarea>
+          <div class="input-meta"><span id="input-status">0 / 12,000</span><span>Review or edit before checking</span></div>
+          <p class="service-note" id="text-service-note">Live analysis is off. The scripted samples work without a key.</p>
+          <label class="consent"><input type="checkbox" id="include-evidence"><span>Also check official guidance — additional checks use more credits.</span></label>
+          <div id="checked-words" class="checked-words" hidden aria-label="Exact words behind the analysis"></div>
+        </section>
+
+        <section role="tabpanel" aria-labelledby="mic-tab" id="mic-panel" hidden>
+          <h2 class="panel-title">Listen with a separate computer</h2>
+          <p class="input-help">Place a speakerphone near this computer. This app cannot capture a phone call inside the same phone.</p>
+          <div class="mic-privacy"><img class="icon i-mic" src="./icon-microphone.svg" alt="" aria-hidden="true"><p>Your browser may send audio to its speech service. Text analysis sends words to Clocked. Use fictional conversations or ones you have permission to share.</p></div>
+          <label class="consent"><input type="checkbox" id="mic-consent"><span>I agree to use the browser’s speech service and have permission to share this conversation.</span></label>
+          <p class="service-note" id="mic-support">Checking browser support…</p>
+          <p class="mic-transcript" id="mic-transcript" aria-label="Recognized speech">Recognized words will appear here.</p>
+        </section>
+
+        <p class="inline-error" id="inline-error" role="alert" hidden></p>
+      </section>
+
+      <aside class="guidance" id="guidance" aria-labelledby="guidance-title">
+        <div class="guidance-header"><img class="icon i-document" src="./icon-document-text.svg" alt="" aria-hidden="true"><div><h2 id="guidance-title">Why it matters</h2><p id="publisher">Federal Trade Commission</p></div></div>
+        <div class="guidance-content" id="guidance-content">
+          <span class="summary-label" id="guidance-label">Guidance summary</span>
+          <p class="guidance-text" id="guidance-text">Government agencies do not demand gift cards as payment.</p>
+          <a class="source-link" id="source-link" href="https://consumer.ftc.gov/avoiding-reporting-gift-card-scams" target="_blank" rel="noopener noreferrer">Read the original guidance<img class="icon i-external" src="./icon-arrow-top-right-on-square.svg" alt="" aria-hidden="true"></a>
+        </div>
+        <div id="live-evidence" class="live-evidence" hidden></div>
+        <p class="guidance-footnote" id="guidance-footnote">This does not verify who is calling.</p>
+      </aside>
+    </main>
+
+    <footer class="app-footer">
+      <div class="controls">
+        <button id="primary-action" class="primary-button" type="button"><img class="icon i-play" id="primary-icon" src="./icon-play.svg" alt="" aria-hidden="true"><span id="primary-label">Play sample</span></button>
+        <button id="restart-action" class="restart-button" type="button"><img class="icon i-restart" src="./icon-arrow-path.svg" alt="" aria-hidden="true"><span id="restart-label">Restart</span></button>
+        <span class="controls-note" id="controls-note">Fictional example · Not an API result</span>
+      </div>
+      <p class="safety-note"><img class="icon i-info" src="./icon-information-circle.svg" alt="" aria-hidden="true">No flagged signals does not mean a call is safe.</p>
+    </footer>
+  </div>
+
+  <dialog id="sample-dialog" aria-labelledby="sample-dialog-title">
+    <form method="dialog" class="dialog-top"><h2 id="sample-dialog-title">Try a different conversation</h2><button class="icon-button" aria-label="Close samples"><img class="icon i-close" src="./icon-x-mark.svg" alt="" aria-hidden="true"></button></form>
+    <p>These fictional examples show how the app works. Their results are written in advance.</p>
+    <div class="sample-choices">
+      <button type="button" data-sample="gift"><strong>Gift card request</strong><span>A request for codes appears during the call.</span></button>
+      <button type="button" data-sample="ordinary"><strong>Routine account check</strong><span>The caller says not to share a password.</span></button>
+      <button type="button" data-sample="unclear"><strong>Not enough information</strong><span>A general update without a concrete request.</span></button>
+    </div>
+  </dialog>
+
+  <dialog id="about-dialog" aria-labelledby="about-title">
+    <form method="dialog" class="dialog-top"><h2 id="about-title">About this preview</h2><button class="icon-button" aria-label="Close about this preview"><img class="icon i-close" src="./icon-x-mark.svg" alt="" aria-hidden="true"></button></form>
+    <p>Sample calls are fictional. Their warnings and highlights are written in advance. Type text to run a separate Clocked analysis.</p>
+    <p>Text analysis sends your words to Clocked when you press Check. If analysis is unavailable, you can still explore the sample calls.</p>
+    <p>Related guidance is not caller authentication. Microphone and real-call performance have not been verified.</p>
+  </dialog>
+</body>
+</html>

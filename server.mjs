@@ -1,4 +1,5 @@
 import { createServer } from 'node:http';
+import { isIP } from 'node:net';
 import { readFileSync } from 'node:fs';
 import { parseEnv } from 'node:util';
 import { resolve } from 'node:path';
@@ -36,6 +37,14 @@ async function readBody(request) {
   }
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); }
   catch { throw new ClockedError('INVALID_INPUT', 400); }
+}
+
+// Behind Cloud Run every request arrives from the Google front end, so count
+// visitors by the first X-Forwarded-For address and fall back to the socket.
+function visitorKey(request) {
+  const forwarded = request.headers['x-forwarded-for'];
+  const first = (Array.isArray(forwarded) ? forwarded[0] : forwarded)?.split(',')[0].trim();
+  return first && first.length <= 45 && isIP(first) ? first : request.socket.remoteAddress;
 }
 
 export function createHandler({ analyzeText, available = false, requestLimit = 12, publicOrigin } = {}) {
@@ -77,7 +86,7 @@ export function createHandler({ analyzeText, available = false, requestLimit = 1
           || !input.text.trim() || input.text.length > 12000
           || (input.includeEvidence !== undefined && typeof input.includeEvidence !== 'boolean')
           || !/^(Caller|Recipient):\s*\S/m.test(input.text)) { send(400, { code: 'INVALID_INPUT' }); return; }
-        const address = request.socket.remoteAddress;
+        const address = visitorKey(request);
         const now = Date.now();
         for (const [key, item] of limits) if (now - item.since >= 3600000) limits.delete(key);
         const count = limits.get(address) ?? { since: now, count: 0 };

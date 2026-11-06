@@ -96,6 +96,20 @@ test('the endpoint uses the supplied analysis and enforces a local request limit
   assert.equal(calls, 1);
 });
 
+test('the request limit counts each forwarded visitor separately and falls back to the socket', async t => {
+  let calls = 0;
+  const base = await preview(t, { available: true, requestLimit: 1, analyzeText: async () => {
+    calls++; return { state: 'no_flags', flagged: [], uncertain: [] };
+  } });
+  const from = address => ({ 'X-Forwarded-For': address });
+  assert.equal((await post(base, 'Caller: First visitor.', from(' 203.0.113.7 , 10.0.0.1'))).status, 200);
+  assert.equal((await post(base, 'Caller: Second visitor.', from('198.51.100.20, 10.0.0.1'))).status, 200);
+  assert.equal((await post(base, 'Caller: First visitor again.', from('203.0.113.7'))).status, 429);
+  assert.equal((await post(base, 'Caller: No forwarding header.')).status, 200);
+  assert.equal((await post(base, 'Caller: Malformed header uses the socket.', from('not-an-ip'))).status, 429);
+  assert.equal(calls, 3);
+});
+
 test('unexpected failures never echo upstream content or supply a sample verdict', async t => {
   const base = await preview(t, { available: true, analyzeText: async () => { throw new Error('PRIVATE SECRET DATA'); } });
   const response = await post(base, 'Caller: A request.');
